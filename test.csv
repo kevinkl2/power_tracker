@@ -1,0 +1,20 @@
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:20:41.665962,0.670226,116.437535,59.767592,7.998,5.401
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:22:28.926634,0.671334,116.552183,60.009347,8,5.403
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:22:31.540643,0.671526,116.499476,59.960086,8,5.403
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:31:26.184438,0.669575,116.268205,59.669135,8.009,5.412
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:31:51.549605,0.669708,116.332522,59.689512,8.009,5.412
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:33:07.528922,0.670433,116.3219,59.76436,8.01,5.413
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:33:14.950076,0.669664,116.361429,59.699932,8.011,5.414
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:34:28.136405,0.670078,116.211351,59.738576,8.012,5.415
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:34:34.259031,0.671083,116.418958,59.93074,8.012,5.415
+datetime,current,voltage,power,total,dayuse
+2019-09-10 22:34:46.584071,0.669989,116.395626,59.703691,8.012,5.415
