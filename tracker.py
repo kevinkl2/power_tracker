@@ -20,7 +20,7 @@ class MockPlug(object):
 
     def get_emeter_daily(self, year, month):
         f = open("kwh.txt", "r")
-        return {13: float(f.read())}
+        return {14: float(f.read())}
 
 
 class Event(object):
@@ -97,6 +97,7 @@ def print_historical_info(file):
                 i["event"], i["duration"], i["kwh"], i["avg"]
             )
         )
+        file.write("\n")
     file.write("\n\n")
     file.write(str(prev_event_time))
     file.write("\n")
@@ -176,8 +177,8 @@ def update(kwh, current_power, current_dt, file):
             prev_event = EventType.OFF.value
             prev_event_time = current_dt
         else:
-            print("{}".format(current_dt - prev_event_time))
-            file.write("{}".format(current_dt - prev_event_time))
+            print("Current Duration: {}".format(current_dt - prev_event_time))
+            file.write("Current Duration: {}".format(current_dt - prev_event_time))
 
 
 def start():
