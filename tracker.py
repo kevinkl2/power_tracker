@@ -69,7 +69,7 @@ def initialize():
             prev_event = EventType.OFF.value
 
 
-def print_historical_info():
+def print_historical_info(file):
     global time_tracker
     global prev_event_time
     global prev_event
@@ -89,8 +89,22 @@ def print_historical_info():
     print(prev_event)
     print()
 
+    file.write(str(time_tracker[-7:]))
+    file.write("\n\n")
+    for i in time_tracker[-7:]:
+        file.write(
+            "event: {}, duration: {}, kwh: {}, avg: {}".format(
+                i["event"], i["duration"], i["kwh"], i["avg"]
+            )
+        )
+    file.write("\n\n")
+    file.write(str(prev_event_time))
+    file.write("\n")
+    file.write(str(prev_event))
+    file.write("\n\n")
 
-def print_current_info(current_dt, current_power, kwh):
+
+def print_current_info(current_dt, current_power, kwh, file):
     global time_tracker
     global prev_event_time
     global prev_event
@@ -102,6 +116,13 @@ def print_current_info(current_dt, current_power, kwh):
     print("{} watts".format(current_power))
     print("{} kwh".format(kwh))
     print("{:.2f} watts".format(kwh / hours * 1000))
+
+    file.write("{} watts".format(current_power))
+    file.write("\n")
+    file.write("{} kwh".format(kwh))
+    file.write("\n")
+    file.write("{:.2f} watts".format(kwh / hours * 1000))
+    file.write("\n")
 
 
 def calculate_average_power(kwh, current_dt):
@@ -123,7 +144,7 @@ def calculate_average_power(kwh, current_dt):
     )
 
 
-def update(kwh, current_power, current_dt):
+def update(kwh, current_power, current_dt, file):
     global time_tracker
     global prev_event_time
     global prev_event
@@ -148,6 +169,7 @@ def update(kwh, current_power, current_dt):
             prev_event_time = current_dt
         else:
             print("Current Duration: {}".format(current_dt - prev_event_time))
+            file.write("Current Duration: {}".format(current_dt - prev_event_time))
     else:
         if current_power < threshold_watt:
             update_time_tracker(EventType.ON.value)
@@ -155,6 +177,7 @@ def update(kwh, current_power, current_dt):
             prev_event_time = current_dt
         else:
             print("{}".format(current_dt - prev_event_time))
+            file.write("{}".format(current_dt - prev_event_time))
 
 
 def start():
@@ -174,11 +197,12 @@ def start():
                 current_dt.day
             ]
 
-            clear()
-            print_historical_info()
-            print_current_info(current_dt, current_power, kwh)
+            with open(os.getenv("FILE"), "w") as file:
+                clear()
+                print_historical_info(file)
+                print_current_info(current_dt, current_power, kwh, file)
 
-            update(kwh, current_power, current_dt)
+                update(kwh, current_power, current_dt, file)
 
             time.sleep(1)
         except Exception as e:
