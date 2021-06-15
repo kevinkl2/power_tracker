@@ -95,8 +95,8 @@ def print_historical_info(file):
     file.write("\n\n")
     for i in time_tracker[-7:]:
         file.write(
-            "event: {}, duration: {}, kwh: {}, avg: {}".format(
-                i["event"], i["duration"], i["kwh"], i["avg"]
+            "event: {}, duration: {}, kwh: {}, avg: {}, watts: {}".format(
+                i["event"], i["duration"], i["kwh"], i["avg"], i["watts"]
             )
         )
         file.write("\n")
