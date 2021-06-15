@@ -24,12 +24,13 @@ class MockPlug(object):
 
 
 class Event(object):
-    def __init__(self, event, duration, kwh, kwh_diff, avg):
+    def __init__(self, event, duration, kwh, kwh_diff, avg, watts):
         self.event = event
         self.duration = duration
         self.kwh = kwh
         self.kwh_diff = kwh_diff
         self.avg = avg
+        self.watts = watts
 
 
 def clear():
@@ -56,6 +57,7 @@ def initialize():
                 ],
                 kwh_diff=0,
                 avg=0,
+                watts=0
             ).__dict__
         )
 
@@ -80,8 +82,8 @@ def print_historical_info(file):
     print()
     for i in time_tracker[-7:]:
         print(
-            "event: {}, duration: {}, kwh: {}, avg: {}".format(
-                i["event"], i["duration"], i["kwh"], i["avg"]
+            "event: {}, duration: {}, kwh: {}, avg: {}, watts: {}".format(
+                i["event"], i["duration"], i["kwh"], i["avg"], i["watts"]
             )
         )
     print()
@@ -152,7 +154,7 @@ def update(kwh, current_power, current_dt, file):
     global plug
     global threshold_watt
 
-    def update_time_tracker(event):
+    def update_time_tracker(event, watts):
         time_tracker.append(
             Event(
                 event=event,
@@ -160,12 +162,13 @@ def update(kwh, current_power, current_dt, file):
                 kwh=kwh,
                 kwh_diff=round(kwh - time_tracker[-1]["kwh"], 5),
                 avg=calculate_average_power(kwh, current_dt),
+                watts=watts
             ).__dict__
         )
 
     if prev_event == EventType.OFF.value:
         if current_power >= threshold_watt:
-            update_time_tracker(EventType.OFF.value)
+            update_time_tracker(EventType.OFF.value, current_power)
             prev_event = EventType.ON.value
             prev_event_time = current_dt
         else:
@@ -173,7 +176,7 @@ def update(kwh, current_power, current_dt, file):
             file.write("Current Duration: {}".format(current_dt - prev_event_time))
     else:
         if current_power < threshold_watt:
-            update_time_tracker(EventType.ON.value)
+            update_time_tracker(EventType.ON.value, current_power)
             prev_event = EventType.OFF.value
             prev_event_time = current_dt
         else:
