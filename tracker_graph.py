@@ -3,8 +3,6 @@ import os
 import time
 from enum import Enum
 from os import system, name
-
-import numpy
 from dotenv import load_dotenv
 from pyHS100 import SmartPlug
 import plotext as plt
