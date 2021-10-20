@@ -26,8 +26,9 @@ def clear():
 load_dotenv()
 
 plug = SmartPlug(getenv("IP"))
-print(plug.get_emeter_daily(year=2021, month=5))
-print(sum(plug.get_emeter_daily(year=2021, month=5).values()))
+# print(plug.get_emeter_realtime())
+print(plug.get_emeter_daily(year=2021, month=10).values())
+# print(sum(plug.get_emeter_daily(year=2021, month=9).values()))
 
 # while True:
 #     try:
