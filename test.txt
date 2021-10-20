@@ -1,12 +1,12 @@
-[{'event': 'on', 'duration': datetime.timedelta(0), 'kwh': 2.813, 'kwh_diff': 0, 'avg': 0, 'watts': 0}]
+[{'event': 'on', 'duration': datetime.timedelta(0), 'kwh': 2.833, 'kwh_diff': 0, 'avg': 0, 'watts': 0}]
 
-event: on, duration: 0:00:00, kwh: 2.813, avg: 0, watts: 0
+event: on, duration: 0:00:00, kwh: 2.833, avg: 0, watts: 0
 
 
-2021-10-19 23:19:06.164069
+2021-10-19 23:24:47.391574
 on
 
-200.165774 watts
-2.814 kwh
-120.67 watts
-Current Duration: 0:00:08.684005
+205.917066 watts
+2.841 kwh
+121.15 watts
+Current Duration: 0:02:17.239235

@@ -188,6 +188,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.plot(graph_y_volt_day)
 
     plt.show()
+    plt.savefig(os.getenv("GRAPH_FILE"))
 
     file.write("{} watts".format(current_power))
     file.write("\n")
@@ -195,8 +196,6 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     file.write("\n")
     file.write("{:.2f} watts".format(kwh / hours * 1000))
     file.write("\n")
-
-    plt.savefig("./blah.txt")
 
 
 def calculate_average_power(kwh, current_dt):
