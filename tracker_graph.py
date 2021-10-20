@@ -3,9 +3,12 @@ import os
 import time
 from enum import Enum
 from os import system, name
-from dotenv import load_dotenv
-from pyHS100 import SmartPlug
+
 import plotext as plt
+from dotenv import load_dotenv
+
+from pyHS100 import SmartPlug
+
 
 class EventType(Enum):
     ON = "on"
@@ -145,12 +148,12 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     current_voltage = current_voltage * 10
 
     if len(graph_y_watt) == 1:
-        graph_y_watt = [current_power]*300
+        graph_y_watt = [current_power] * 300
     else:
         graph_y_watt = graph_y_watt[-299:] + [current_power]
 
     if len(graph_y_volt) == 1:
-        graph_y_volt = [current_voltage]*300
+        graph_y_volt = [current_voltage] * 300
     else:
         graph_y_volt = graph_y_volt[-299:] + [current_voltage]
 
@@ -208,14 +211,14 @@ def calculate_average_power(kwh, current_dt):
     global threshold_watt
 
     return (
-        abs(kwh - time_tracker[-1]["kwh"] + time_tracker[-1]["kwh_diff"])
-        * 1000
-        / (
-            (
-                current_dt - prev_event_time + time_tracker[-1]["duration"]
-            ).total_seconds()
-            / 3600
-        )
+            abs(kwh - time_tracker[-1]["kwh"] + time_tracker[-1]["kwh_diff"])
+            * 1000
+            / (
+                    (
+                            current_dt - prev_event_time + time_tracker[-1]["duration"]
+                    ).total_seconds()
+                    / 3600
+            )
     )
 
 
