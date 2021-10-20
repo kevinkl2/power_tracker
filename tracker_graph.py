@@ -197,7 +197,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.grid(None, True)
     plt.plotsize(None, 8)
     plt.colorless()
-    plt.plot(graph_y_volt_day)
+    plt.plot(graph_y_volt_day, marker="dot")
 
     plt.show()
     plt.savefig(os.getenv("GRAPH_FILE"))
