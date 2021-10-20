@@ -164,14 +164,14 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.grid(None, True)
     plt.plotsize(None, 20)
     plt.colorless()
-    plt.scatter(graph_y_watt)
+    plt.plot(graph_y_watt, marker="dot")
 
     plt.subplot(1, 2)
     plt.title("Volts*10")
     plt.grid(None, True)
     plt.plotsize(None, 20)
     plt.colorless()
-    plt.plot(graph_y_volt)
+    plt.plot(graph_y_volt, marker="dot")
 
     plt.subplot(2, 1)
     plt.title("kWh Today")
