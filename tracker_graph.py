@@ -35,6 +35,12 @@ class Event(object):
         self.watts = watts
 
 
+class Hour(object):
+    def __init__(self, current_hour, start):
+        self.hour = current_hour
+        self.start_kwh = start
+        self.stop_kwh = start
+
 def clear():
     if name == "nt":
         _ = system("cls")
@@ -51,6 +57,7 @@ def initialize():
     global graph_y_watt
     global graph_y_volt
     global graph_y_kwh
+    global graph_y_kwh_hour
     global graph_y_volt_day
 
     def update_time_tracker(event):
@@ -79,6 +86,7 @@ def initialize():
     graph_y_watt = [0]
     graph_y_volt = [0]
     graph_y_kwh = []
+    graph_y_kwh_hour = []
     graph_y_volt_day = []
 
 
@@ -127,6 +135,8 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     global graph_y_watt
     global graph_y_volt
     global graph_y_kwh
+    global graph_y_kwh_hour
+    global prev_loop_time
     global graph_y_volt_day
 
     hours = current_dt.hour + (current_dt.minute / 60) + (current_dt.second / 3600)
@@ -159,13 +169,25 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
 
     if len(graph_y_kwh) == 0:
         graph_y_kwh = [kwh]
+        graph_y_kwh_hour = [Hour(current_hour=current_dt.hour,start=kwh*1000)]
         graph_y_volt_day = [current_voltage]
     elif kwh < graph_y_kwh[-1]:
         graph_y_kwh = [kwh]
+        graph_y_kwh_hour = [Hour(current_hour=current_dt.hour,start=kwh*1000)]
         graph_y_volt_day = [current_voltage]
     else:
         graph_y_kwh.append(kwh)
         graph_y_volt_day.append(current_voltage)
+        if current_dt.hour > prev_loop_time.hour:
+            graph_y_kwh_hour.append(Hour(current_hour=current_dt.hour,start=kwh*1000))
+        else:
+            graph_y_kwh_hour[-1].stop_kwh = kwh*1000
+
+    temp_graph_y_kwh = [0.0010]
+    temp_hours = ["0"]
+    for hour in graph_y_kwh_hour:
+        temp_hours.append(str(hour.hour))
+        temp_graph_y_kwh.append(hour.stop_kwh - hour.start_kwh)
 
     plt.clear_figure()
     plt.clear_data()
@@ -173,30 +195,33 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
 
     plt.subplot(1, 1)
     plt.title("Watts")
+    plt.colorless()
     plt.grid(None, True)
     plt.plotsize(None, 20)
-    plt.colorless()
     plt.plot(graph_y_watt, marker="dot")
 
     plt.subplot(1, 2)
     plt.title("Volts*10")
     plt.grid(None, True)
     plt.plotsize(None, 20)
-    plt.colorless()
     plt.plot(graph_y_volt, marker="dot")
+
+    print(temp_hours)
+    print(temp_graph_y_kwh)
+    for i in graph_y_kwh_hour:
+        print("{} : {} {}".format(i.hour, i.start_kwh, i.stop_kwh))
 
     plt.subplot(2, 1)
     plt.title("kWh Today")
-    plt.grid(None, True)
+    # plt.grid(None, True)
     plt.plotsize(None, 8)
-    plt.colorless()
-    plt.plot(graph_y_kwh)
+    # plt.plot(graph_y_kwh, marker="dot")
+    plt.bar(temp_hours, temp_graph_y_kwh, marker="dot")
 
     plt.subplot(2, 2)
     plt.title("Volts*10 Today")
     plt.grid(None, True)
     plt.plotsize(None, 8)
-    plt.colorless()
     plt.plot(graph_y_volt_day, marker="dot")
 
     plt.show()
@@ -301,11 +326,14 @@ if __name__ == "__main__":
     global graph_y_watt
     global graph_y_volt
     global graph_y_kwh
+    global graph_y_kwh_hour
+    global prev_loop_time
     global graph_y_volt_day
 
     time_tracker = []
 
     prev_event_time = datetime.datetime.now()
+    prev_loop_time = datetime.datetime.now()
 
     # prevEventTime = datetime.datetime.strptime("2020-09-14 12:57:02.311040", "%Y-%m-%d %H:%M:%S.%f")
 
