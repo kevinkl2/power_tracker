@@ -196,7 +196,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
 
     plt.subplot(1, 1)
     plt.title("Watts")
-    # plt.colorless()
+    plt.colorless()
     plt.grid(None, True)
     plt.plotsize(None, 20)
     plt.plot(graph_y_watt, marker="dot")
