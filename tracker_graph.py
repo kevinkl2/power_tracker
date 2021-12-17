@@ -182,6 +182,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
             graph_y_kwh_hour.append(Hour(current_hour=current_dt.hour,start=kwh*1000))
         else:
             graph_y_kwh_hour[-1].stop_kwh = kwh*1000
+        prev_loop_time = current_dt
 
     temp_graph_y_kwh = [0.0010]
     temp_hours = ["0"]
@@ -195,7 +196,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
 
     plt.subplot(1, 1)
     plt.title("Watts")
-    plt.colorless()
+    # plt.colorless()
     plt.grid(None, True)
     plt.plotsize(None, 20)
     plt.plot(graph_y_watt, marker="dot")
