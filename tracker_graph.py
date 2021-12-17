@@ -311,7 +311,7 @@ if __name__ == "__main__":
 
     prev_event = EventType.OFF.value
 
-    plug = SmartPlug(os.getenv("IP"))
+    plug = SmartPlug(host=os.getenv("IP"), cache_ttl=0)
 
     # plug = MockPlug()
 
