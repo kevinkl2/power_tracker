@@ -184,10 +184,15 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
             graph_y_kwh_hour[-1].stop_kwh = kwh*1000
         prev_loop_time = current_dt
 
-    temp_graph_y_kwh = [0.0010]
-    temp_hours = ["0"]
+    temp_graph_y_kwh = []
+    temp_hours = []
+
+    if len(graph_y_kwh_hour) <= 1:
+        temp_graph_y_kwh = [0.0010]
+        temp_hours = ["-1"]
+
     for hour in graph_y_kwh_hour:
-        temp_hours.append(str(hour.hour))
+        temp_hours.append("{}: {}".format(hour.hour, hour.stop_kwh-hour.start_kwh))
         temp_graph_y_kwh.append(hour.stop_kwh - hour.start_kwh)
 
     plt.clear_figure()
@@ -207,11 +212,6 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.plotsize(None, 20)
     plt.plot(graph_y_volt, marker="dot")
 
-    print(temp_hours)
-    print(temp_graph_y_kwh)
-    for i in graph_y_kwh_hour:
-        print("{} : {} {}".format(i.hour, i.start_kwh, i.stop_kwh))
-
     plt.subplot(2, 1)
     plt.title("kWh Today")
     # plt.grid(None, True)
@@ -226,6 +226,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.plot(graph_y_volt_day, marker="dot")
 
     plt.show()
+    print(plt.time())
     plt.savefig(os.getenv("GRAPH_FILE"))
 
 
