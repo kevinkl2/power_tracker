@@ -228,6 +228,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.show()
     print(plt.time())
     plt.savefig(os.getenv("GRAPH_FILE"))
+    plt.savefig(os.getenv("GRAPH_FILE_TXT"))
 
     file.write("{:.5f} seconds".format(plt.time()))
     file.write("\n")
