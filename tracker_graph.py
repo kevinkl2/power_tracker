@@ -229,6 +229,9 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     print(plt.time())
     plt.savefig(os.getenv("GRAPH_FILE"))
 
+    file.write("{:.5f} seconds".format(plt.time()))
+    file.write("\n")
+
 
 def calculate_average_power(kwh, current_dt):
     global time_tracker
