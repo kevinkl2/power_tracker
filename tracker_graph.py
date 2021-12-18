@@ -192,7 +192,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
         temp_hours = ["-1"]
 
     for hour in graph_y_kwh_hour:
-        temp_hours.append("{}: {:.0f}".format(hour.hour, hour.stop_kwh-hour.start_kwh))
+        temp_hours.append("{}:{:.0f}".format(hour.hour, hour.stop_kwh-hour.start_kwh))
         temp_graph_y_kwh.append(hour.stop_kwh - hour.start_kwh)
 
     plt.clear_figure()
