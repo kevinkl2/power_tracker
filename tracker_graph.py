@@ -197,11 +197,12 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
 
     plt.clear_figure()
     plt.clear_data()
-    plt.subplots(2, 2)
+    plt.subplots(3, 2)
+    plt.limitsize(False, True)
 
     plt.subplot(1, 1)
     plt.title("Watts")
-    plt.colorless()
+    # plt.colorless()
     plt.grid(None, True)
     plt.plotsize(None, 20)
     plt.plot(graph_y_watt, marker="dot")
@@ -213,19 +214,22 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.plot(graph_y_volt, marker="dot")
 
     plt.subplot(2, 1)
+    plt.span(2, 1)
     plt.title("Wh Today")
     # plt.grid(None, True)
-    plt.plotsize(100, 8)
+    plt.plotsize(383, 20)
     # plt.plot(graph_y_kwh, marker="dot")
     plt.bar(temp_hours, temp_graph_y_kwh, marker="dot")
 
-    plt.subplot(2, 2)
+    plt.subplot(3, 1)
+    plt.span(2, 1)
     plt.title("Volts*10 Today")
     plt.grid(None, True)
-    plt.plotsize(None, 8)
+    plt.plotsize(None, 20)
     plt.plot(graph_y_volt_day, marker="dot")
 
-    plt.show()
+    # plt.show()
+    plt.build()
     print(plt.time())
     plt.savefig(os.getenv("GRAPH_FILE"))
     plt.savefig(os.getenv("GRAPH_FILE_TXT"))
@@ -299,13 +303,15 @@ def start():
 
     while True:
         try:
+            start_time = time.time()
             current_dt = datetime.datetime.now()
 
-            current_power = plug.get_emeter_realtime()["power"]
-
-            current_voltage = plug.get_emeter_realtime()["voltage"]
+            realtime = plug.get_emeter_realtime()
+            current_power = realtime["power"]
+            current_voltage = realtime["voltage"]
 
             kwh_month = plug.get_emeter_daily(year=current_dt.year, month=current_dt.month)
+            test = "{} seconds".format(time.time() - start_time)
 
             kwh = kwh_month[current_dt.day]
 
@@ -315,8 +321,11 @@ def start():
                 print_current_info(current_dt, current_power, current_voltage, kwh, kwh_month, file)
 
                 update(kwh, current_power, current_dt, file)
+                file.write("\n\n{} seconds".format(time.time() - start_time))
+                print("{} seconds".format(time.time() - start_time))
+                print(test)
 
-            time.sleep(1)
+            # time.sleep(1)
         except Exception as e:
             print(e)
 
