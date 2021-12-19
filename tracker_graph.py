@@ -215,7 +215,7 @@ def print_current_info(current_dt, current_power, current_voltage, kwh, kwh_mont
     plt.subplot(2, 1)
     plt.title("Wh Today")
     # plt.grid(None, True)
-    plt.plotsize(None, 8)
+    plt.plotsize(100, 8)
     # plt.plot(graph_y_kwh, marker="dot")
     plt.bar(temp_hours, temp_graph_y_kwh, marker="dot")
 
